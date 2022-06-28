@@ -617,7 +617,7 @@
         <div class="resume" id="capture">
           <div class="resume__title">
             <h4>ハロプロ履歴書</h4>
-            <p>日付</p>
+            <p v-show="date">{{ date }}現在</p>
           </div>
           <div class="resume__flex">
             <div class="resume__photo">
@@ -628,17 +628,17 @@
             <table class="resume__top">
               <tbody>
                 <tr>
-                  <td class="title--md">名前</td>
+                  <td class="title title--md">名前</td>
                   <td colspan="3">{{ contactName }}</td>
                 </tr>
                 <tr>
-                  <td class="title--md">性別</td>
+                  <td class="title title--md">性別</td>
                   <td>{{ gender }}</td>
-                  <td class="title--md">年齢</td>
+                  <td class="title title--md">年齢</td>
                   <td>{{ age }}</td>
                 </tr>
                 <tr>
-                  <td class="title--md">生息地</td>
+                  <td class="title title--md">生息地</td>
                   <td colspan="3">{{ contactArea }}</td>
                 </tr>
               </tbody>
@@ -647,17 +647,17 @@
           <table class="resume__main">
             <tbody>
               <tr>
-                <td class="title--sm">FC</td>
+                <td class="title title--sm">FC</td>
                 <td>
                   <span v-for="fc in selectFc" :key="fc">
                     {{ fc }}
                   </span>
                 </td>
-                <td class="title--sm">ヲタ歴</td>
+                <td class="title title--sm">ヲタ歴</td>
                 <td>{{ contactYear }}</td>
               </tr>
               <tr>
-                <td class="title--lg">推しグループ</td>
+                <td class="title title--lg">推しグループ</td>
                 <td colspan="3">
                   <span v-for="group in selectGroup" :key="group">
                     {{ group }}
@@ -665,15 +665,15 @@
                 </td>
               </tr>
               <tr>
-                <td class="title--lg">推しメン</td>
+                <td class="title title--lg">推しメン</td>
                 <td colspan="3">{{ contactMember }}</td>
               </tr>
               <tr>
-                <td class="title--lg">好きな曲</td>
+                <td class="title title--lg">好きな曲</td>
                 <td colspan="3">{{ contactSong }}</td>
               </tr>
               <tr>
-                <td class="title--lg">ヲタ活</td>
+                <td class="title title--lg">ヲタ活</td>
                 <td colspan="3">
                   <span v-for="action in selectAction" :key="action">
                     {{ action }}
@@ -681,7 +681,7 @@
                 </td>
               </tr>
               <tr>
-                <td class="title--lg">主な垢利用法</td>
+                <td class="title title--lg">主な垢利用法</td>
                 <td colspan="3">
                   <span v-for="purpose in selectPurpose" :key="purpose">
                     {{ purpose }}
@@ -689,13 +689,17 @@
                 </td>
               </tr>
               <tr>
-                <td class="title--lg">異性のおとももち</td>
+                <td class="title title--lg">異性のおとももち</td>
                 <td>{{ friend }}</td>
-                <td class="title--md">現場交流</td>
+                <td class="title title--md">現場交流</td>
                 <td>{{ site }}</td>
               </tr>
-              <tr>
-                <td colspan="4">自己アピール欄<br />{{ contactAppeal }}</td>
+              <tr class="resume__main--appeal">
+                <td colspan="4">
+                  <span class="title">自己アピール欄</span><br />{{
+                    contactAppeal
+                  }}
+                </td>
               </tr>
             </tbody>
           </table>
@@ -711,6 +715,7 @@
 <script>
 import { ref } from "vue";
 import html2canvas from "html2canvas";
+import moment from "moment";
 export default {
   name: "ContactForm",
   data() {
@@ -720,6 +725,7 @@ export default {
       selectGroup: [],
       selectFc: [],
       url: "",
+      date: "",
     };
   },
   setup() {
@@ -787,13 +793,21 @@ export default {
       this.url = URL.createObjectURL(file);
     },
     exportImage() {
-      html2canvas(document.querySelector("#capture")).then((canvas) => {
+      html2canvas(document.querySelector("#capture"), {
+        scale: 2,
+      }).then((canvas) => {
         const link = document.createElement("a");
         link.href = canvas.toDataURL();
         link.download = `hello-project-resume.png`;
         link.click();
       });
     },
+    printDate: function () {
+      return new Date().toLocaleDateString();
+    },
+  },
+  mounted: function () {
+    this.date = moment(this.printDate()).format("YYYY年MM月DD日");
   },
 };
 </script>
@@ -839,7 +853,19 @@ textarea {
     &--export {
       .resume {
         margin: 20px auto;
+        padding: 15px 10px;
         &__title {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: relative;
+          h4 {
+            display: inline;
+          }
+          p {
+            position: absolute;
+            right: 0;
+          }
         }
         &__photo {
           flex: 0 0 30%;
@@ -854,6 +880,10 @@ textarea {
         }
         table {
           border-spacing: 0;
+          border-collapse: collapse;
+          .title {
+            font-weight: bold;
+          }
           tr {
             td {
               border: #000 solid 1px;
@@ -875,9 +905,20 @@ textarea {
         &__top {
           width: 70%;
           margin-left: auto;
+          tr:last-of-type {
+            td {
+              border-bottom: none;
+            }
+          }
         }
         &__main {
           width: 100%;
+          &--appeal {
+            td {
+              text-align: left;
+              min-height: 100px;
+            }
+          }
         }
       }
     }

@@ -1,7 +1,7 @@
 <template>
   <footer id="footer" class="mt20">
     <div class="container">
-      <p>2021 株式会社◯◯</p>
+      <a href="https://twitter.com/_k1b3">@_k1b3</a>
     </div>
   </footer>
 </template>
@@ -21,12 +21,16 @@ footer {
   background: #0069ae;
   bottom: 0;
   color: #fff;
-  font-size: 12px;
-  line-height: 140%;
+  font-size: 14px;
+  line-height: 3;
   text-align: center;
   display: flex;
   flex-wrap: nowrap;
   justify-content: center;
   align-items: center;
+  a {
+    color: #fff;
+    text-decoration: none;
+  }
 }
 </style>
