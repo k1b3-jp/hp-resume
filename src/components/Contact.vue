@@ -730,7 +730,7 @@ export default {
   },
   setup() {
     // 現在のページ管理
-    let currentPage = ref(6);
+    let currentPage = ref(1);
     const checkCurrentPage = (number) => {
       return {
         "current-page": currentPage.value === number,
