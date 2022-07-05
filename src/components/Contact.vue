@@ -649,9 +649,7 @@
               <tr>
                 <td class="title title--sm">FC</td>
                 <td>
-                  <span v-for="fc in selectFc" :key="fc">
-                    {{ fc }}
-                  </span>
+                  <span v-for="fc in selectFc" :key="fc"> {{ fc }}</span>
                 </td>
                 <td class="title title--sm">ヲタ歴</td>
                 <td>{{ contactYear }}</td>
@@ -898,6 +896,10 @@ textarea {
                 &--lg {
                   width: 30%;
                 }
+              }
+              span {
+                margin: 0 1rem;
+                display: inline-block;
               }
             }
           }
