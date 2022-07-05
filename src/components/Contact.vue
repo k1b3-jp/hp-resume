@@ -879,12 +879,19 @@ textarea {
         table {
           border-spacing: 0;
           border-collapse: collapse;
+          border-right: 1px solid;
+          border-bottom: 1px solid;
+          &.resume__top {
+            border-bottom: none;
+          }
           .title {
             font-weight: bold;
           }
           tr {
             td {
-              border: #000 solid 1px;
+              border: 1px solid;
+              border-right: 0px;
+              border-bottom: 0px;
               padding: 10px 5px;
               &.title {
                 &--sm {
